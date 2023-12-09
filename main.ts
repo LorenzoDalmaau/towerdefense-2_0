@@ -1,3 +1,31 @@
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (canShoot) {
+        canShoot = false
+        projectile = sprites.createProjectileFromSprite(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . 3 3 3 3 3 3 3 . . . . 
+            . . . . 3 3 1 1 1 1 1 3 3 . . . 
+            . . . . 2 1 1 1 1 1 1 1 2 . . . 
+            . . . . 2 2 1 1 1 1 1 2 2 . . . 
+            . . . 3 3 2 3 3 1 3 3 2 3 3 . . 
+            . . 3 3 . . 2 3 1 3 2 . . 3 3 . 
+            . . 1 . . . 2 3 1 3 2 . . . 1 . 
+            . . 1 3 . . . 3 1 3 . . . 3 1 . 
+            . . . 1 1 3 3 3 3 3 3 3 1 1 . . 
+            . . . . . 1 1 1 1 1 1 1 . . . . 
+            . . . . . . . 2 1 2 . . . . . . 
+            . . . . . . . 2 1 2 . . . . . . 
+            . . . . . . . 2 1 2 . . . . . . 
+            . . . . . . . . 2 . . . . . . . 
+            . . . . . . . . 2 . . . . . . . 
+            `, cursor, 0, -100)
+        projectile.setFlag(SpriteFlag.GhostThroughWalls, true)
+        music.play(music.melodyPlayable(music.pewPew), music.PlaybackMode.UntilDone)
+        timer.after(shootCooldown, function () {
+            canShoot = true
+        })
+    }
+})
 scene.onHitWall(SpriteKind.Enemy, function (sprite, location) {
     if (tiles.tileIs(tiles.locationOfSprite(sprite), sprites.vehicle.roadTurn3)) {
         sprite.vy = 0
@@ -20,57 +48,71 @@ scene.onHitWall(SpriteKind.Enemy, function (sprite, location) {
     } else if (tiles.tileIs(tiles.locationOfSprite(sprite), sprites.vehicle.roadIntersection3)) {
         sprite.vy = 0
         sprite.vx = enemySpeed
-    } else {
+    } else if (tiles.tileIs(tiles.locationOfSprite(sprite), sprites.vehicle.roadTurn2)) {
         sprite.vy = enemySpeed
         sprite.vx = 0
+    } else {
+        sprites.destroy(sprite, effects.blizzard, 500)
+        info.changeLifeBy(-1)
     }
 })
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+    sprites.destroy(projectile, effects.fire, 500)
+    sprites.destroy(otherSprite, effects.disintegrate, 500)
+})
 let newEnemy: Sprite = null
+let projectile: Sprite = null
+let cursor: Sprite = null
 let enemySpeed = 0
+let shootCooldown = 0
+let canShoot = false
+info.setLife(3)
+canShoot = true
+shootCooldown = 1000
 tiles.loadMap(tiles.createMap(tilemap`level0`))
 enemySpeed = 20
 effects.starField.startScreenEffect()
-let cursor = sprites.create(img`
-    . . . . . . . . . . b 5 b . . . 
-    . . . . . . . . . b 5 b . . . . 
-    . . . . . . b b b b b b . . . . 
-    . . . . . b b 5 5 5 5 5 b . . . 
-    . . . . b b 5 d 1 f 5 d 4 c . . 
-    . . . . b 5 5 1 f f d d 4 4 4 b 
-    . . . . b 5 5 d f b 4 4 4 4 b . 
-    . . . b d 5 5 5 5 4 4 4 4 b . . 
-    . . b d d 5 5 5 5 5 5 5 5 b . . 
-    . b d d d d 5 5 5 5 5 5 5 5 b . 
-    b d d d b b b 5 5 5 5 5 5 5 b . 
-    c d d b 5 5 d c 5 5 5 5 5 5 b . 
-    c b b d 5 d c d 5 5 5 5 5 5 b . 
-    . b 5 5 b c d d 5 5 5 5 5 d b . 
-    b b c c c d d d d 5 5 5 b b . . 
-    . . . c c c c c c c c b b . . . 
+cursor = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . f f . . . . . f f f . . . . . 
+    f 1 1 f . . f f 1 1 1 f . . . . 
+    f 1 1 1 f f 1 1 f 1 1 1 f . . . 
+    f 1 1 1 1 1 f 1 1 1 1 1 f . . . 
+    . f 1 1 1 1 1 1 1 1 f 1 1 f . . 
+    . . f 1 1 1 1 1 f 1 1 f 1 f . . 
+    . . f f 1 1 f 1 1 f 1 1 1 f . . 
+    . . f 1 1 1 1 f 1 1 1 1 1 f f . 
+    . . f 1 1 1 1 1 1 1 1 1 f 1 1 f 
+    . . . f 1 1 1 1 1 1 1 1 1 1 1 f 
+    . . . . f 1 1 1 1 1 f 1 1 1 f . 
+    . . . . . f f f f f 1 1 1 f . . 
+    . . . . . . . . f 1 1 1 f . . . 
+    . . . . . . . . f 1 1 f . . . . 
+    . . . . . . . . . f f . . . . . 
     `, SpriteKind.Player)
 cursor.setFlag(SpriteFlag.GhostThroughWalls, true)
 cursor.setFlag(SpriteFlag.StayInScreen, true)
 cursor.z = 10000
-controller.moveSprite(cursor, 50, 50)
+controller.moveSprite(cursor, 100, 100)
 scene.cameraFollowSprite(cursor)
 game.onUpdateInterval(2000, function () {
     newEnemy = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
         . . . . b b b b . . . . . . . . 
         . . . b 3 3 3 3 b b b b . . . . 
-        . . b b 3 3 3 3 3 1 1 b b c c . 
-        . . b 1 1 3 3 3 3 3 1 1 3 3 c c 
+        . . b b 3 3 3 3 3 3 1 1 b c c . 
+        . . b 3 3 3 3 3 3 1 1 1 3 c c c 
         . . b 1 1 3 3 3 3 3 3 3 3 3 b c 
-        . . c 3 3 3 3 3 3 3 c c c b b f 
-        . c 3 3 3 3 3 b b b b c c c b f 
-        c 3 3 3 3 b b d d d d d c c b f 
-        c 3 3 c b d d d d d d c d c c . 
-        f 3 c c c d d c d d d c d b c . 
-        f b c c c d d d c d d d d d f . 
+        . . c 1 1 3 3 3 b c c c c b b f 
+        . c c 3 3 3 b b d d d c c c b f 
+        c b 3 3 b b d d d d d d b c b f 
+        c 3 3 c b d d d d d d d d b c . 
+        f 3 c c c d d d d d d c c d c . 
+        f b c c c d d c c d d d d d f . 
         f b c c c d d d d d b b b d f . 
-        f f b b c b d d d d d d d c . . 
-        . f f f f b c c d d d d f f . . 
-        . . f b d d b c c f f b b f f . 
-        . . f d d d b . . f f b b b f . 
+        f f b b c f f b d d d d d c . . 
+        . f f f f d d b b d d d b f . . 
+        . . . . f d d d b c c f f f . . 
         `, SpriteKind.Enemy)
     tiles.placeOnRandomTile(newEnemy, assets.tile`myTile0`)
     newEnemy.vy = enemySpeed
