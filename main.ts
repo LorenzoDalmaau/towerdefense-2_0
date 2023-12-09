@@ -61,12 +61,15 @@ scene.onHitWall(SpriteKind.Enemy, function (sprite, location) {
         info.changeLifeBy(-1)
     }
 })
-let newEnemy: Sprite = null
+let newEnemy2: Sprite = null
+let enemy_count = 0
 let projectile: Sprite = null
 let cursor: Sprite = null
 let enemySpeed = 0
 let shootCooldown = 0
 let canShoot = false
+let newEnemy = null
+let level = 1
 info.setLife(3)
 info.setScore(0)
 canShoot = true
@@ -98,24 +101,27 @@ cursor.z = 10000
 controller.moveSprite(cursor, 100, 100)
 scene.cameraFollowSprite(cursor)
 game.onUpdateInterval(2000, function () {
-    newEnemy = sprites.create(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . b b b b . . . . . . . . 
-        . . . b 3 3 3 3 b b b b . . . . 
-        . . b b 3 3 3 3 3 3 1 1 b c c . 
-        . . b 3 3 3 3 3 3 1 1 1 3 c c c 
-        . . b 1 1 3 3 3 3 3 3 3 3 3 b c 
-        . . c 1 1 3 3 3 b c c c c b b f 
-        . c c 3 3 3 b b d d d c c c b f 
-        c b 3 3 b b d d d d d d b c b f 
-        c 3 3 c b d d d d d d d d b c . 
-        f 3 c c c d d d d d d c c d c . 
-        f b c c c d d c c d d d d d f . 
-        f b c c c d d d d d b b b d f . 
-        f f b b c f f b d d d d d c . . 
-        . f f f f d d b b d d d b f . . 
-        . . . . f d d d b c c f f f . . 
-        `, SpriteKind.Enemy)
-    tiles.placeOnRandomTile(newEnemy, assets.tile`myTile0`)
-    newEnemy.vy = enemySpeed
+    if (enemy_count < 10 * level) {
+        newEnemy2 = sprites.create(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . b b b b . . . . . . . . 
+            . . . b 3 3 3 3 b b b b . . . . 
+            . . b b 3 3 3 3 3 3 1 1 b c c . 
+            . . b 3 3 3 3 3 3 1 1 1 3 c c c 
+            . . b 1 1 3 3 3 3 3 3 3 3 3 b c 
+            . . c 1 1 3 3 3 b c c c c b b f 
+            . c c 3 3 3 b b d d d c c c b f 
+            c b 3 3 b b d d d d d d b c b f 
+            c 3 3 c b d d d d d d d d b c . 
+            f 3 c c c d d d d d d c c d c . 
+            f b c c c d d c c d d d d d f . 
+            f b c c c d d d d d b b b d f . 
+            f f b b c f f b d d d d d c . . 
+            . f f f f d d b b d d d b f . . 
+            . . . . f d d d b c c f f f . . 
+            `, SpriteKind.Enemy)
+        tiles.placeOnRandomTile(newEnemy2, assets.tile`myTile0`)
+        newEnemy2.vy = enemySpeed
+        enemy_count += 1
+    }
 })

@@ -77,12 +77,15 @@ def on_hit_wall(sprite, location):
         info.change_life_by(-1)
 scene.on_hit_wall(SpriteKind.enemy, on_hit_wall)
 
-newEnemy: Sprite = None
+newEnemy2: Sprite = None
+enemy_count = 0
 projectile: Sprite = None
 cursor: Sprite = None
 enemySpeed = 0
 shootCooldown = 0
 canShoot = False
+newEnemy = None
+level = 1
 info.set_life(3)
 info.set_score(0)
 canShoot = True
@@ -118,28 +121,30 @@ controller.move_sprite(cursor, 100, 100)
 scene.camera_follow_sprite(cursor)
 
 def on_update_interval():
-    global newEnemy
-    newEnemy = sprites.create(img("""
-            . . . . . . . . . . . . . . . . 
-                    . . . . b b b b . . . . . . . . 
-                    . . . b 3 3 3 3 b b b b . . . . 
-                    . . b b 3 3 3 3 3 3 1 1 b c c . 
-                    . . b 3 3 3 3 3 3 1 1 1 3 c c c 
-                    . . b 1 1 3 3 3 3 3 3 3 3 3 b c 
-                    . . c 1 1 3 3 3 b c c c c b b f 
-                    . c c 3 3 3 b b d d d c c c b f 
-                    c b 3 3 b b d d d d d d b c b f 
-                    c 3 3 c b d d d d d d d d b c . 
-                    f 3 c c c d d d d d d c c d c . 
-                    f b c c c d d c c d d d d d f . 
-                    f b c c c d d d d d b b b d f . 
-                    f f b b c f f b d d d d d c . . 
-                    . f f f f d d b b d d d b f . . 
-                    . . . . f d d d b c c f f f . .
-        """),
-        SpriteKind.enemy)
-    tiles.place_on_random_tile(newEnemy, assets.tile("""
-        myTile0
-    """))
-    newEnemy.vy = enemySpeed
+    global newEnemy2, enemy_count
+    if enemy_count < 10 * level:
+        newEnemy2 = sprites.create(img("""
+                . . . . . . . . . . . . . . . . 
+                            . . . . b b b b . . . . . . . . 
+                            . . . b 3 3 3 3 b b b b . . . . 
+                            . . b b 3 3 3 3 3 3 1 1 b c c . 
+                            . . b 3 3 3 3 3 3 1 1 1 3 c c c 
+                            . . b 1 1 3 3 3 3 3 3 3 3 3 b c 
+                            . . c 1 1 3 3 3 b c c c c b b f 
+                            . c c 3 3 3 b b d d d c c c b f 
+                            c b 3 3 b b d d d d d d b c b f 
+                            c 3 3 c b d d d d d d d d b c . 
+                            f 3 c c c d d d d d d c c d c . 
+                            f b c c c d d c c d d d d d f . 
+                            f b c c c d d d d d b b b d f . 
+                            f f b b c f f b d d d d d c . . 
+                            . f f f f d d b b d d d b f . . 
+                            . . . . f d d d b c c f f f . .
+            """),
+            SpriteKind.enemy)
+        tiles.place_on_random_tile(newEnemy2, assets.tile("""
+            myTile0
+        """))
+        newEnemy2.vy = enemySpeed
+        enemy_count += 1
 game.on_update_interval(2000, on_update_interval)
