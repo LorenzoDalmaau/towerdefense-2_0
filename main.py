@@ -1,3 +1,45 @@
+def on_a_pressed():
+    global canShoot, projectile
+    if canShoot:
+        canShoot = False
+        projectile = sprites.create_projectile_from_sprite(img("""
+                . . . . . . . . . . . . . . . . 
+                            . . . . . 3 3 3 3 3 3 3 . . . . 
+                            . . . . 3 3 1 1 1 1 1 3 3 . . . 
+                            . . . . 2 1 1 1 1 1 1 1 2 . . . 
+                            . . . . 2 2 1 1 1 1 1 2 2 . . . 
+                            . . . 3 3 2 3 3 1 3 3 2 3 3 . . 
+                            . . 3 3 . . 2 3 1 3 2 . . 3 3 . 
+                            . . 1 . . . 2 3 1 3 2 . . . 1 . 
+                            . . 1 3 . . . 3 1 3 . . . 3 1 . 
+                            . . . 1 1 3 3 3 3 3 3 3 1 1 . . 
+                            . . . . . 1 1 1 1 1 1 1 . . . . 
+                            . . . . . . . 2 1 2 . . . . . . 
+                            . . . . . . . 2 1 2 . . . . . . 
+                            . . . . . . . 2 1 2 . . . . . . 
+                            . . . . . . . . 2 . . . . . . . 
+                            . . . . . . . . 2 . . . . . . .
+            """),
+            cursor,
+            0,
+            -100)
+        projectile.set_flag(SpriteFlag.GHOST_THROUGH_WALLS, True)
+        music.play(music.melody_playable(music.pew_pew),
+            music.PlaybackMode.UNTIL_DONE)
+        
+        def on_after():
+            global canShoot
+            canShoot = True
+        timer.after(shootCooldown, on_after)
+        
+controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
+
+def on_on_overlap(sprite2, otherSprite):
+    sprites.destroy(projectile, effects.fire, 500)
+    sprites.destroy(otherSprite, effects.disintegrate, 500)
+    info.change_score_by(1)
+sprites.on_overlap(SpriteKind.projectile, SpriteKind.enemy, on_on_overlap)
+
 def on_hit_wall(sprite, location):
     if tiles.tile_is(tiles.location_of_sprite(sprite), sprites.vehicle.road_turn3):
         sprite.vy = 0
@@ -27,62 +69,73 @@ def on_hit_wall(sprite, location):
         sprites.vehicle.road_intersection3):
         sprite.vy = 0
         sprite.vx = enemySpeed
-    else:
+    elif tiles.tile_is(tiles.location_of_sprite(sprite), sprites.vehicle.road_turn2):
         sprite.vy = enemySpeed
         sprite.vx = 0
+    else:
+        sprites.destroy(sprite, effects.blizzard, 500)
+        info.change_life_by(-1)
 scene.on_hit_wall(SpriteKind.enemy, on_hit_wall)
 
 newEnemy: Sprite = None
+projectile: Sprite = None
+cursor: Sprite = None
 enemySpeed = 0
+shootCooldown = 0
+canShoot = False
+info.set_life(3)
+info.set_score(0)
+canShoot = True
+shootCooldown = 1000
 tiles.load_map(tiles.create_map(tilemap("""
     level0
 """)))
 enemySpeed = 20
 effects.star_field.start_screen_effect()
 cursor = sprites.create(img("""
-        . . . . . . . . . . b 5 b . . . 
-            . . . . . . . . . b 5 b . . . . 
-            . . . . . . b b b b b b . . . . 
-            . . . . . b b 5 5 5 5 5 b . . . 
-            . . . . b b 5 d 1 f 5 d 4 c . . 
-            . . . . b 5 5 1 f f d d 4 4 4 b 
-            . . . . b 5 5 d f b 4 4 4 4 b . 
-            . . . b d 5 5 5 5 4 4 4 4 b . . 
-            . . b d d 5 5 5 5 5 5 5 5 b . . 
-            . b d d d d 5 5 5 5 5 5 5 5 b . 
-            b d d d b b b 5 5 5 5 5 5 5 b . 
-            c d d b 5 5 d c 5 5 5 5 5 5 b . 
-            c b b d 5 d c d 5 5 5 5 5 5 b . 
-            . b 5 5 b c d d 5 5 5 5 5 d b . 
-            b b c c c d d d d 5 5 5 b b . . 
-            . . . c c c c c c c c b b . . .
+        . . . . . . . . . . . . . . . . 
+            . f f . . . . . f f f . . . . . 
+            f 1 1 f . . f f 1 1 1 f . . . . 
+            f 1 1 1 f f 1 1 f 1 1 1 f . . . 
+            f 1 1 1 1 1 f 1 1 1 1 1 f . . . 
+            . f 1 1 1 1 1 1 1 1 f 1 1 f . . 
+            . . f 1 1 1 1 1 f 1 1 f 1 f . . 
+            . . f f 1 1 f 1 1 f 1 1 1 f . . 
+            . . f 1 1 1 1 f 1 1 1 1 1 f f . 
+            . . f 1 1 1 1 1 1 1 1 1 f 1 1 f 
+            . . . f 1 1 1 1 1 1 1 1 1 1 1 f 
+            . . . . f 1 1 1 1 1 f 1 1 1 f . 
+            . . . . . f f f f f 1 1 1 f . . 
+            . . . . . . . . f 1 1 1 f . . . 
+            . . . . . . . . f 1 1 f . . . . 
+            . . . . . . . . . f f . . . . .
     """),
     SpriteKind.player)
 cursor.set_flag(SpriteFlag.GHOST_THROUGH_WALLS, True)
 cursor.set_flag(SpriteFlag.STAY_IN_SCREEN, True)
 cursor.z = 10000
-controller.move_sprite(cursor, 50, 50)
+controller.move_sprite(cursor, 100, 100)
 scene.camera_follow_sprite(cursor)
 
 def on_update_interval():
     global newEnemy
     newEnemy = sprites.create(img("""
-            . . . . b b b b . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+                    . . . . b b b b . . . . . . . . 
                     . . . b 3 3 3 3 b b b b . . . . 
-                    . . b b 3 3 3 3 3 1 1 b b c c . 
-                    . . b 1 1 3 3 3 3 3 1 1 3 3 c c 
+                    . . b b 3 3 3 3 3 3 1 1 b c c . 
+                    . . b 3 3 3 3 3 3 1 1 1 3 c c c 
                     . . b 1 1 3 3 3 3 3 3 3 3 3 b c 
-                    . . c 3 3 3 3 3 3 3 c c c b b f 
-                    . c 3 3 3 3 3 b b b b c c c b f 
-                    c 3 3 3 3 b b d d d d d c c b f 
-                    c 3 3 c b d d d d d d c d c c . 
-                    f 3 c c c d d c d d d c d b c . 
-                    f b c c c d d d c d d d d d f . 
+                    . . c 1 1 3 3 3 b c c c c b b f 
+                    . c c 3 3 3 b b d d d c c c b f 
+                    c b 3 3 b b d d d d d d b c b f 
+                    c 3 3 c b d d d d d d d d b c . 
+                    f 3 c c c d d d d d d c c d c . 
+                    f b c c c d d c c d d d d d f . 
                     f b c c c d d d d d b b b d f . 
-                    f f b b c b d d d d d d d c . . 
-                    . f f f f b c c d d d d f f . . 
-                    . . f b d d b c c f f b b f f . 
-                    . . f d d d b . . f f b b b f .
+                    f f b b c f f b d d d d d c . . 
+                    . f f f f d d b b d d d b f . . 
+                    . . . . f d d d b c c f f f . .
         """),
         SpriteKind.enemy)
     tiles.place_on_random_tile(newEnemy, assets.tile("""

@@ -26,6 +26,11 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         })
     }
 })
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite2, otherSprite) {
+    sprites.destroy(projectile, effects.fire, 500)
+    sprites.destroy(otherSprite, effects.disintegrate, 500)
+    info.changeScoreBy(1)
+})
 scene.onHitWall(SpriteKind.Enemy, function (sprite, location) {
     if (tiles.tileIs(tiles.locationOfSprite(sprite), sprites.vehicle.roadTurn3)) {
         sprite.vy = 0
@@ -56,10 +61,6 @@ scene.onHitWall(SpriteKind.Enemy, function (sprite, location) {
         info.changeLifeBy(-1)
     }
 })
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
-    sprites.destroy(projectile, effects.fire, 500)
-    sprites.destroy(otherSprite, effects.disintegrate, 500)
-})
 let newEnemy: Sprite = null
 let projectile: Sprite = null
 let cursor: Sprite = null
@@ -67,6 +68,7 @@ let enemySpeed = 0
 let shootCooldown = 0
 let canShoot = false
 info.setLife(3)
+info.setScore(0)
 canShoot = true
 shootCooldown = 1000
 tiles.loadMap(tiles.createMap(tilemap`level0`))
