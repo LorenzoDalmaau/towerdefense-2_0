@@ -1,3 +1,9 @@
+namespace SpriteKind {
+    export const rangeBuy = SpriteKind.create()
+}
+function destroy_shop_items () {
+    sprites.destroyAllSpritesOfKind(SpriteKind.rangeBuy)
+}
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (canShoot) {
         canShoot = false
@@ -25,6 +31,41 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
             canShoot = true
         })
     }
+})
+function goShop () {
+    tiles.setCurrentTilemap(tilemap`level8`)
+    tiles.placeOnTile(cursor, tiles.getTileLocation(7, 10))
+    game.splash("Selecciona una ventaja para comprar")
+    pause(1000)
+    rangeBuy = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . 3 3 3 3 3 . . . . . . 
+        . . . . . 3 3 3 3 3 . . . . . . 
+        . . . . . 3 3 3 3 3 . . . . . . 
+        . . . . . 3 3 3 3 3 . . . . . . 
+        . . . 3 3 3 3 3 3 3 . . . . . . 
+        . . . 3 3 3 3 3 3 3 3 3 3 . . . 
+        . . . 3 3 3 3 3 3 3 3 3 3 . . . 
+        . . . 3 3 3 3 3 3 3 3 3 3 . . . 
+        . . . 3 3 3 3 3 3 3 3 3 3 . . . 
+        . . . 3 3 3 3 3 3 3 3 3 3 . . . 
+        . . . . 3 3 3 3 3 3 3 3 3 . . . 
+        . . . . . 3 3 3 3 3 . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.rangeBuy)
+    tiles.placeOnTile(rangeBuy, tiles.getTileLocation(4, 3))
+}
+sprites.onOverlap(SpriteKind.Player, SpriteKind.rangeBuy, function (sprite, otherSprite) {
+    game.showLongText("Esta mejora aumenta la velocidad del proyectil. Quieres comprarla?", DialogLayout.Bottom)
+    story.showPlayerChoices("Si", "No")
+    if (story.checkLastAnswer("Si")) {
+        tiles.loadMap(tiles.createMap(tilemap`level0`))
+        playerInShop = false
+        destroy_shop_items()
+    }
+    pause(1000)
 })
 scene.onHitWall(SpriteKind.Enemy, function (sprite, location) {
     if (tiles.tileIs(tiles.locationOfSprite(sprite), sprites.vehicle.roadTurn3)) {
@@ -68,6 +109,7 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite2, ot
             game.setGameOverEffect(true, effects.confetti)
             game.gameOver(true)
         } else {
+            playerInShop = true
             game.setDialogFrame(img`
                 ..................................................................
                 ............fff........fff.............fff..............ffff......
@@ -138,12 +180,14 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite2, ot
                 `)
             game.showLongText("LEVEL COMPLETED!!", DialogLayout.Full)
             game.showLongText("Next leve: " + level, DialogLayout.Full)
+            goShop()
         }
     }
 })
 let newEnemy2: Sprite = null
 let gemerated_enemys_in_level = 0
 let generated_enemys = 0
+let rangeBuy: Sprite = null
 let projectile: Sprite = null
 let cursor: Sprite = null
 let enemySpeed = 0
@@ -151,6 +195,8 @@ let shootCooldown = 0
 let canShoot = false
 let enemy_count = 0
 let level = 0
+let playerInShop = false
+playerInShop = false
 let newEnemy = null
 level = 1
 enemy_count = 10 * level
@@ -185,7 +231,7 @@ cursor.z = 10000
 controller.moveSprite(cursor, 100, 100)
 scene.cameraFollowSprite(cursor)
 game.onUpdateInterval(1000, function () {
-    if (gemerated_enemys_in_level < enemy_count) {
+    if (gemerated_enemys_in_level < enemy_count && playerInShop == false) {
         newEnemy2 = sprites.create(img`
             . . . . . . . . . . . . . . . . 
             . . . . b b b b . . . . . . . . 
