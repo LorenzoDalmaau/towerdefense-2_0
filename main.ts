@@ -4,6 +4,39 @@ namespace SpriteKind {
 function destroy_shop_items () {
     sprites.destroyAllSpritesOfKind(SpriteKind.rangeBuy)
 }
+function buy_projectile_upgrade () {
+    projectile_speed += 0 - 20
+}
+scene.onHitWall(SpriteKind.Enemy, function (sprite2, location) {
+    if (tiles.tileIs(tiles.locationOfSprite(sprite2), sprites.vehicle.roadTurn3)) {
+        sprite2.vy = 0
+        sprite2.vx = enemySpeed
+    } else if (tiles.tileIs(tiles.locationOfSprite(sprite2), sprites.vehicle.roadIntersection1)) {
+        sprite2.vy = 0
+        sprite2.vx = enemySpeed
+    } else if (tiles.tileIs(tiles.locationOfSprite(sprite2), sprites.vehicle.roadIntersection4)) {
+        sprite2.vy = enemySpeed
+        sprite2.vx = 0
+    } else if (tiles.tileIs(tiles.locationOfSprite(sprite2), sprites.vehicle.roadTurn4)) {
+        sprite2.vy = 0
+        sprite2.vx = 0 - enemySpeed
+    } else if (tiles.tileIs(tiles.locationOfSprite(sprite2), sprites.vehicle.roadIntersection2)) {
+        sprite2.vy = enemySpeed
+        sprite2.vx = 0
+    } else if (tiles.tileIs(tiles.locationOfSprite(sprite2), assets.tile`myTile5`)) {
+        sprite2.vy = 0 - enemySpeed
+        sprite2.vx = 0
+    } else if (tiles.tileIs(tiles.locationOfSprite(sprite2), sprites.vehicle.roadIntersection3)) {
+        sprite2.vy = 0
+        sprite2.vx = enemySpeed
+    } else if (tiles.tileIs(tiles.locationOfSprite(sprite2), sprites.vehicle.roadTurn2)) {
+        sprite2.vy = enemySpeed
+        sprite2.vx = 0
+    } else {
+        sprites.destroy(sprite2, effects.blizzard, 500)
+        info.changeLifeBy(-1)
+    }
+})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (canShoot) {
         canShoot = false
@@ -24,7 +57,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
             . . . . . . . 2 1 2 . . . . . . 
             . . . . . . . . 2 . . . . . . . 
             . . . . . . . . 2 . . . . . . . 
-            `, cursor, 0, -100)
+            `, cursor, 0, projectile_speed)
         projectile.setFlag(SpriteFlag.GhostThroughWalls, true)
         music.play(music.melodyPlayable(music.pewPew), music.PlaybackMode.UntilDone)
         timer.after(shootCooldown, function () {
@@ -37,7 +70,7 @@ function goShop () {
     tiles.placeOnTile(cursor, tiles.getTileLocation(7, 10))
     game.splash("Selecciona una ventaja para comprar")
     pause(1000)
-    rangeBuy = sprites.create(img`
+    rangeBuy2 = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . 3 3 3 3 3 . . . . . . 
@@ -55,51 +88,11 @@ function goShop () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         `, SpriteKind.rangeBuy)
-    tiles.placeOnTile(rangeBuy, tiles.getTileLocation(4, 3))
+    tiles.placeOnTile(rangeBuy2, tiles.getTileLocation(4, 3))
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.rangeBuy, function (sprite, otherSprite) {
-    game.showLongText("Esta mejora aumenta la velocidad del proyectil. Quieres comprarla?", DialogLayout.Bottom)
-    story.showPlayerChoices("Si", "No")
-    if (story.checkLastAnswer("Si")) {
-        tiles.loadMap(tiles.createMap(tilemap`level0`))
-        playerInShop = false
-        destroy_shop_items()
-    }
-    pause(1000)
-})
-scene.onHitWall(SpriteKind.Enemy, function (sprite, location) {
-    if (tiles.tileIs(tiles.locationOfSprite(sprite), sprites.vehicle.roadTurn3)) {
-        sprite.vy = 0
-        sprite.vx = enemySpeed
-    } else if (tiles.tileIs(tiles.locationOfSprite(sprite), sprites.vehicle.roadIntersection1)) {
-        sprite.vy = 0
-        sprite.vx = enemySpeed
-    } else if (tiles.tileIs(tiles.locationOfSprite(sprite), sprites.vehicle.roadIntersection4)) {
-        sprite.vy = enemySpeed
-        sprite.vx = 0
-    } else if (tiles.tileIs(tiles.locationOfSprite(sprite), sprites.vehicle.roadTurn4)) {
-        sprite.vy = 0
-        sprite.vx = 0 - enemySpeed
-    } else if (tiles.tileIs(tiles.locationOfSprite(sprite), sprites.vehicle.roadIntersection2)) {
-        sprite.vy = enemySpeed
-        sprite.vx = 0
-    } else if (tiles.tileIs(tiles.locationOfSprite(sprite), assets.tile`myTile5`)) {
-        sprite.vy = 0 - enemySpeed
-        sprite.vx = 0
-    } else if (tiles.tileIs(tiles.locationOfSprite(sprite), sprites.vehicle.roadIntersection3)) {
-        sprite.vy = 0
-        sprite.vx = enemySpeed
-    } else if (tiles.tileIs(tiles.locationOfSprite(sprite), sprites.vehicle.roadTurn2)) {
-        sprite.vy = enemySpeed
-        sprite.vx = 0
-    } else {
-        sprites.destroy(sprite, effects.blizzard, 500)
-        info.changeLifeBy(-1)
-    }
-})
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite2, otherSprite) {
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite22, otherSprite2) {
     sprites.destroy(projectile, effects.fire, 500)
-    sprites.destroy(otherSprite, effects.disintegrate, 500)
+    sprites.destroy(otherSprite2, effects.disintegrate, 500)
     info.changeScoreBy(1)
     if (info.score() == generated_enemys) {
         level += 1
@@ -179,15 +172,26 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite2, ot
                 ..................................................................
                 `)
             game.showLongText("LEVEL COMPLETED!!", DialogLayout.Full)
-            game.showLongText("Next leve: " + level, DialogLayout.Full)
+            game.showLongText("Next leve: " + ("" + level), DialogLayout.Full)
             goShop()
         }
     }
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.rangeBuy, function (sprite, otherSprite) {
+    game.showLongText("Esta mejora aumenta la velocidad del proyectil. Quieres comprarla?", DialogLayout.Bottom)
+    story.showPlayerChoices("Si", "No")
+    if (story.checkLastAnswer("Si")) {
+        tiles.loadMap(tiles.createMap(tilemap`level0`))
+        playerInShop = false
+        destroy_shop_items()
+        buy_projectile_upgrade()
+    }
+    pause(1000)
+})
 let newEnemy2: Sprite = null
 let gemerated_enemys_in_level = 0
 let generated_enemys = 0
-let rangeBuy: Sprite = null
+let rangeBuy2: Sprite = null
 let projectile: Sprite = null
 let cursor: Sprite = null
 let enemySpeed = 0
@@ -196,8 +200,10 @@ let canShoot = false
 let enemy_count = 0
 let level = 0
 let playerInShop = false
-playerInShop = false
+let projectile_speed = 0
 let newEnemy = null
+projectile_speed = -20
+playerInShop = false
 level = 1
 enemy_count = 10 * level
 info.setLife(3)
