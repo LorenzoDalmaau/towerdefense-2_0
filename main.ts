@@ -3,155 +3,10 @@ namespace SpriteKind {
     export const playerSpeedBuy = SpriteKind.create()
     export const coolDownBuy = SpriteKind.create()
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.proyectileSpeedBuy, function (sprite, otherSprite) {
-    game.showLongText("Esta mejora aumenta la velocidad del proyectil. Quieres comprarla?", DialogLayout.Bottom)
-    story.showPlayerChoices("Si", "No")
-    if (story.checkLastAnswer("Si")) {
-        tiles.loadMap(tiles.createMap(tilemap`level0`))
-        playerInShop = false
-        canShoot = true
-        destroy_shop_items()
-        buy_projectile_upgrade()
-    }
-    pause(1000)
-})
-function destroy_shop_items () {
-    sprites.destroyAllSpritesOfKind(SpriteKind.proyectileSpeedBuy)
-    sprites.destroyAllSpritesOfKind(SpriteKind.playerSpeedBuy)
-    sprites.destroyAllSpritesOfKind(SpriteKind.coolDownBuy)
-}
-function buy_projectile_upgrade () {
-    projectile_speed += 0 - 20
-}
-scene.onHitWall(SpriteKind.Enemy, function (sprite2, location) {
-    if (tiles.tileIs(tiles.locationOfSprite(sprite2), sprites.vehicle.roadTurn3)) {
-        sprite2.vy = 0
-        sprite2.vx = enemySpeed
-    } else if (tiles.tileIs(tiles.locationOfSprite(sprite2), sprites.vehicle.roadIntersection1)) {
-        sprite2.vy = 0
-        sprite2.vx = enemySpeed
-    } else if (tiles.tileIs(tiles.locationOfSprite(sprite2), sprites.vehicle.roadIntersection4)) {
-        sprite2.vy = enemySpeed
-        sprite2.vx = 0
-    } else if (tiles.tileIs(tiles.locationOfSprite(sprite2), sprites.vehicle.roadTurn4)) {
-        sprite2.vy = 0
-        sprite2.vx = 0 - enemySpeed
-    } else if (tiles.tileIs(tiles.locationOfSprite(sprite2), sprites.vehicle.roadIntersection2)) {
-        sprite2.vy = enemySpeed
-        sprite2.vx = 0
-    } else if (tiles.tileIs(tiles.locationOfSprite(sprite2), assets.tile`myTile5`)) {
-        sprite2.vy = 0 - enemySpeed
-        sprite2.vx = 0
-    } else if (tiles.tileIs(tiles.locationOfSprite(sprite2), sprites.vehicle.roadIntersection3)) {
-        sprite2.vy = 0
-        sprite2.vx = enemySpeed
-    } else if (tiles.tileIs(tiles.locationOfSprite(sprite2), sprites.vehicle.roadTurn2)) {
-        sprite2.vy = enemySpeed
-        sprite2.vx = 0
-    } else {
-        sprites.destroy(sprite2, effects.blizzard, 500)
-        info.changeLifeBy(-1)
-    }
-})
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (canShoot) {
-        canShoot = false
-        projectile = sprites.createProjectileFromSprite(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . 3 3 3 3 3 3 3 . . . . 
-            . . . . 3 3 1 1 1 1 1 3 3 . . . 
-            . . . . 2 1 1 1 1 1 1 1 2 . . . 
-            . . . . 2 2 1 1 1 1 1 2 2 . . . 
-            . . . 3 3 2 3 3 1 3 3 2 3 3 . . 
-            . . 3 3 . . 2 3 1 3 2 . . 3 3 . 
-            . . 1 . . . 2 3 1 3 2 . . . 1 . 
-            . . 1 3 . . . 3 1 3 . . . 3 1 . 
-            . . . 1 1 3 3 3 3 3 3 3 1 1 . . 
-            . . . . . 1 1 1 1 1 1 1 . . . . 
-            . . . . . . . 2 1 2 . . . . . . 
-            . . . . . . . 2 1 2 . . . . . . 
-            . . . . . . . 2 1 2 . . . . . . 
-            . . . . . . . . 2 . . . . . . . 
-            . . . . . . . . 2 . . . . . . . 
-            `, cursor, 0, projectile_speed)
-        projectile.setFlag(SpriteFlag.GhostThroughWalls, true)
-        music.play(music.melodyPlayable(music.pewPew), music.PlaybackMode.UntilDone)
-        timer.after(shootCooldown, function () {
-            if (!(playerInShop)) {
-                canShoot = true
-            }
-        })
-    }
-})
-function goShop () {
-    tiles.setCurrentTilemap(tilemap`level8`)
-    tiles.placeOnTile(cursor, tiles.getTileLocation(7, 15))
-    game.splash("Selecciona una ventaja para comprar")
-    pause(1000)
-    proyectileSpeedBuy = sprites.create(img`
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-        `, SpriteKind.proyectileSpeedBuy)
-    tiles.placeOnTile(proyectileSpeedBuy, tiles.getTileLocation(5, 9))
-    playerSpeedBuy = sprites.create(img`
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        `, SpriteKind.playerSpeedBuy)
-    tiles.placeOnTile(playerSpeedBuy, tiles.getTileLocation(7, 9))
-    coolDownBuy = sprites.create(img`
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        `, SpriteKind.coolDownBuy)
-    tiles.placeOnTile(coolDownBuy, tiles.getTileLocation(9, 9))
-}
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite22, otherSprite2) {
-    sprites.destroy(projectile, effects.fire, 500)
-    sprites.destroy(otherSprite2, effects.disintegrate, 500)
-    info.changeScoreBy(1)
-    if (info.score() == generated_enemys) {
+function checkLevelCompleted () {
+    if (generated_enemys == completed_enemies + info.score()) {
         level += 1
+        enemySpeed += 5
         canShoot = false
         enemy_count = 10 * level
         gemerated_enemys_in_level = 0
@@ -233,7 +88,189 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite22, o
             goShop()
         }
     }
+}
+sprites.onOverlap(SpriteKind.Player, SpriteKind.proyectileSpeedBuy, function (sprite, otherSprite) {
+    game.showLongText("Esta mejora aumenta la velocidad del proyectil. Quieres comprarla?", DialogLayout.Bottom)
+    story.showPlayerChoices("Si", "No")
+    if (story.checkLastAnswer("Si")) {
+        tiles.loadMap(tiles.createMap(tilemap`level0`))
+        playerInShop = false
+        canShoot = true
+        destroy_shop_items()
+        buy_projectile_upgrade()
+    }
+    pause(1000)
 })
+function destroy_shop_items () {
+    sprites.destroyAllSpritesOfKind(SpriteKind.proyectileSpeedBuy)
+    sprites.destroyAllSpritesOfKind(SpriteKind.playerSpeedBuy)
+    sprites.destroyAllSpritesOfKind(SpriteKind.coolDownBuy)
+}
+sprites.onOverlap(SpriteKind.Player, SpriteKind.coolDownBuy, function (sprite, otherSprite) {
+    game.showLongText("Esta mejora disminuye el coolDown del disparo Quieres comprarla?", DialogLayout.Bottom)
+    story.showPlayerChoices("Si", "No")
+    if (story.checkLastAnswer("Si")) {
+        tiles.loadMap(tiles.createMap(tilemap`level0`))
+        playerInShop = false
+        canShoot = true
+        destroy_shop_items()
+        buy_coolDown_upgrage()
+    }
+    pause(1000)
+})
+function buy_projectile_upgrade () {
+    projectile_speed += 0 - 20
+}
+sprites.onOverlap(SpriteKind.Player, SpriteKind.playerSpeedBuy, function (sprite, otherSprite) {
+    game.showLongText("Esta mejora aumenta la velocidad del jugador. Quieres comprarla?", DialogLayout.Bottom)
+    story.showPlayerChoices("Si", "No")
+    if (story.checkLastAnswer("Si")) {
+        tiles.loadMap(tiles.createMap(tilemap`level0`))
+        playerInShop = false
+        canShoot = true
+        destroy_shop_items()
+        buy_player_upgrade()
+    }
+    pause(1000)
+})
+scene.onHitWall(SpriteKind.Enemy, function (sprite2, location) {
+    if (tiles.tileIs(tiles.locationOfSprite(sprite2), sprites.vehicle.roadTurn3)) {
+        sprite2.vy = 0
+        sprite2.vx = enemySpeed
+    } else if (tiles.tileIs(tiles.locationOfSprite(sprite2), sprites.vehicle.roadIntersection1)) {
+        sprite2.vy = 0
+        sprite2.vx = enemySpeed
+    } else if (tiles.tileIs(tiles.locationOfSprite(sprite2), sprites.vehicle.roadIntersection4)) {
+        sprite2.vy = enemySpeed
+        sprite2.vx = 0
+    } else if (tiles.tileIs(tiles.locationOfSprite(sprite2), sprites.vehicle.roadTurn4)) {
+        sprite2.vy = 0
+        sprite2.vx = 0 - enemySpeed
+    } else if (tiles.tileIs(tiles.locationOfSprite(sprite2), sprites.vehicle.roadIntersection2)) {
+        sprite2.vy = enemySpeed
+        sprite2.vx = 0
+    } else if (tiles.tileIs(tiles.locationOfSprite(sprite2), assets.tile`myTile2`)) {
+        sprite2.vy = 0 - enemySpeed
+        sprite2.vx = 0
+    } else if (tiles.tileIs(tiles.locationOfSprite(sprite2), sprites.vehicle.roadIntersection3)) {
+        sprite2.vy = 0
+        sprite2.vx = enemySpeed
+    } else if (tiles.tileIs(tiles.locationOfSprite(sprite2), sprites.vehicle.roadTurn2)) {
+        sprite2.vy = enemySpeed
+        sprite2.vx = 0
+    } else {
+        sprites.destroy(sprite2, effects.blizzard, 500)
+        completed_enemies += 1
+        info.changeLifeBy(-1)
+        checkLevelCompleted()
+    }
+})
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (canShoot) {
+        canShoot = false
+        projectile = sprites.createProjectileFromSprite(img`
+            . . 2 2 2 2 . . 
+            . 4 4 5 5 4 4 . 
+            . 4 5 1 5 5 4 . 
+            2 4 5 1 5 5 4 2 
+            2 4 4 5 5 4 4 2 
+            . 2 5 5 4 4 2 2 
+            . 2 4 4 4 2 2 . 
+            . 2 2 2 2 . 2 . 
+            . 2 . 2 . . 2 . 
+            . 2 . . . . 2 . 
+            . . . . 5 . 2 . 
+            . . 5 . 2 . . . 
+            . 2 . . . . . . 
+            . . . 2 . . . . 
+            . . . 2 . . . . 
+            . . . . . . . . 
+            `, cursor, 0, projectile_speed)
+        projectile.setFlag(SpriteFlag.GhostThroughWalls, true)
+        music.play(music.melodyPlayable(music.pewPew), music.PlaybackMode.UntilDone)
+        timer.after(shootCooldown, function () {
+            if (!(playerInShop)) {
+                canShoot = true
+            }
+        })
+    }
+})
+function goShop () {
+    tiles.setCurrentTilemap(tilemap`level8`)
+    tiles.placeOnTile(cursor, tiles.getTileLocation(7, 15))
+    game.splash("Selecciona una ventaja para comprar")
+    pause(1000)
+    proyectileSpeedBuy = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . 5 5 5 5 5 5 . . . . 
+        . . . . . 5 . . . . 5 5 5 . . . 
+        . . . . 5 . . . . . . . 5 5 . . 
+        . . 5 5 5 5 5 5 5 5 5 5 5 5 . . 
+        . 5 . 5 5 5 5 5 5 5 5 5 . 5 . . 
+        5 . 5 5 5 5 5 . . 5 5 5 5 5 . . 
+        5 5 . . 5 5 5 5 5 5 5 . . . 5 5 
+        5 5 5 5 5 5 5 5 . . . . . . . 5 
+        . 5 5 5 5 5 . . . . . . . . . 5 
+        . . . . . . . . . . . . . . . 5 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.proyectileSpeedBuy)
+    tiles.placeOnTile(proyectileSpeedBuy, tiles.getTileLocation(5, 9))
+    playerSpeedBuy = sprites.create(img`
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        `, SpriteKind.playerSpeedBuy)
+    tiles.placeOnTile(playerSpeedBuy, tiles.getTileLocation(7, 9))
+    coolDownBuy = sprites.create(img`
+        a a a a a a a a a a a a a a a a 
+        a a a a a a a a a a a a a a a a 
+        a a a a a a a a a a a a a a a a 
+        a a a a a a a a a a a a a a a a 
+        a a a a a a a a a a a a a a a a 
+        a a a a a a a a a a a a a a a a 
+        a a a a a a a a a a a a a a a a 
+        a a a a a a a a a a a a a a a a 
+        a a a a a a a a a a a a a a a a 
+        a a a a a a a a a a a a a a a a 
+        a a a a a a a a a a a a a a a a 
+        a a a a a a a a a a a a a a a a 
+        a a a a a a a a a a a a a a a a 
+        a a a a a a a a a a a a a a a a 
+        a a a a a a a a a a a a a a a a 
+        a a a a a a a a a a a a a a a a 
+        `, SpriteKind.coolDownBuy)
+    tiles.placeOnTile(coolDownBuy, tiles.getTileLocation(9, 9))
+}
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite22, otherSprite2) {
+    sprites.destroy(projectile, effects.fire, 500)
+    sprites.destroy(otherSprite2, effects.disintegrate, 500)
+    info.changeScoreBy(1)
+    checkLevelCompleted()
+})
+function buy_player_upgrade () {
+    playerSpeed += playerSpeed + 10
+    controller.moveSprite(cursor, playerSpeed, playerSpeed)
+}
+function buy_coolDown_upgrage () {
+    shootCooldown += 0 - 250
+}
 function initialMenu () {
     tiles.loadMap(tiles.createMap(tilemap`level12`))
     story.showPlayerChoices("PLAY", "HELP")
@@ -315,16 +352,18 @@ function initialMenu () {
     }
 }
 let newEnemy2: Sprite = null
-let gemerated_enemys_in_level = 0
-let generated_enemys = 0
 let coolDownBuy: Sprite = null
 let playerSpeedBuy: Sprite = null
 let proyectileSpeedBuy: Sprite = null
 let projectile: Sprite = null
+let gemerated_enemys_in_level = 0
+let completed_enemies = 0
+let generated_enemys = 0
 let cursor: Sprite = null
 let enemySpeed = 0
 let shootCooldown = 0
 let canShoot = false
+let playerSpeed = 0
 let enemy_count = 0
 let level = 0
 let playerInShop = false
@@ -335,6 +374,7 @@ projectile_speed = -20
 playerInShop = false
 level = 1
 enemy_count = 10 * level
+playerSpeed = 50
 info.setLife(3)
 info.setScore(0)
 canShoot = true
@@ -363,7 +403,7 @@ cursor = sprites.create(img`
 cursor.setFlag(SpriteFlag.GhostThroughWalls, true)
 cursor.setFlag(SpriteFlag.StayInScreen, true)
 cursor.z = 10000
-controller.moveSprite(cursor, 100, 100)
+controller.moveSprite(cursor, playerSpeed, playerSpeed)
 scene.cameraFollowSprite(cursor)
 game.onUpdateInterval(1000, function () {
     if (gemerated_enemys_in_level < enemy_count && playerInShop == false) {
