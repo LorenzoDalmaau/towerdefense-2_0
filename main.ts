@@ -10,10 +10,34 @@ function checkLevelCompleted () {
         canShoot = false
         enemy_count = 10 * level
         gemerated_enemys_in_level = 0
+        animation.runImageAnimation(
+        cursor,
+        [img`
+            . . . . . . . . . . . . . . . . 
+            . f f . . . . . f f f . . . . . 
+            f 1 1 f . . f f 1 1 1 f . . . . 
+            f 1 1 1 f f 1 1 f 1 1 1 f . . . 
+            f 1 1 1 1 1 f 1 1 1 1 1 f . . . 
+            . f 1 1 1 1 1 1 1 1 f 1 1 f . . 
+            . . f 1 1 1 1 1 f 1 1 f 1 f . . 
+            . . f f 1 1 f 1 1 f 1 1 1 f . . 
+            . . f 1 1 1 1 f 1 1 1 1 1 f f . 
+            . . f 1 1 1 1 1 1 1 1 1 f 1 1 f 
+            . . . f 1 1 1 1 1 1 1 1 1 1 1 f 
+            . . . . f 1 1 1 1 1 f 1 1 1 f . 
+            . . . . . f f f f f 1 1 1 f . . 
+            . . . . . . . . f 1 1 1 f . . . 
+            . . . . . . . . f 1 1 f . . . . 
+            . . . . . . . . . f f . . . . . 
+            `],
+        100,
+        true
+        )
         if (level == 6) {
             game.setGameOverEffect(true, effects.confetti)
             game.gameOver(true)
         } else {
+            music.play(music.melodyPlayable(music.magicWand), music.PlaybackMode.UntilDone)
             playerInShop = true
             game.setDialogFrame(img`
                 ..................................................................
@@ -84,7 +108,6 @@ function checkLevelCompleted () {
                 ..................................................................
                 `)
             game.showLongText("LEVEL COMPLETED!!", DialogLayout.Full)
-            music.play(music.melodyPlayable(music.magicWand), music.PlaybackMode.UntilDone)
             game.showLongText("Next leve: " + ("" + level), DialogLayout.Full)
             goShop()
         }
@@ -107,6 +130,148 @@ function destroy_shop_items () {
     sprites.destroyAllSpritesOfKind(SpriteKind.proyectileSpeedBuy)
     sprites.destroyAllSpritesOfKind(SpriteKind.playerSpeedBuy)
     sprites.destroyAllSpritesOfKind(SpriteKind.coolDownBuy)
+    animation.runImageAnimation(
+    cursor,
+    [img`
+        ......45...5..
+        ..........54..
+        .......54.....
+        ........55..5.
+        .......5555...
+        .......55554..
+        ......2455442.
+        ....ff244542f.
+        ...feef2222fef
+        ....feeffffeef
+        .....feeeeeef.
+        ......feeeef..
+        .......feef...
+        .......feef...
+        ......feeef...
+        .....fffffff..
+        ....f11ff11f..
+        ....f111111f..
+        ...f11f111f1f.
+        .fff1f111111f.
+        f11f1111f11f1f
+        f111f11f11111f
+        .f1111111111f.
+        ..f111f1111f..
+        ...f1111fff...
+        ....f11feef...
+        .....ff.eef...
+        .......feef...
+        ......feef....
+        .......feef...
+        .......feef...
+        .......fef....
+        ........f.....
+        `,img`
+        .........4.5..
+        .....5...5.4..
+        .....4......5.
+        .........5..4.
+        ......45.54...
+        ......45554...
+        ......245542..
+        ....ff244542f.
+        ...feef2222fef
+        ....feeffffeef
+        .....feeeeeef.
+        ......feeeef..
+        .......feef...
+        .......feef...
+        ......feeef...
+        .....fffffff..
+        ....f11ff11f..
+        ....f111111f..
+        ...f11f111f1f.
+        .fff1f111111f.
+        f11f1111f11f1f
+        f111f11f11111f
+        .f1111111111f.
+        ..f111f1111f..
+        ...f1111fff...
+        ....f11feef...
+        .....ff.eef...
+        .......feef...
+        ......feef....
+        .......feef...
+        .......feef...
+        .......fef....
+        ........f.....
+        `,img`
+        .....4....4...
+        .....5......5.
+        .......54...4.
+        .....4..55....
+        .....5.55542..
+        ......255442..
+        .......2542...
+        ....ff.2552.f.
+        ...feef.22.fef
+        ....feeffffeef
+        .....feeeeeef.
+        ......feeeef..
+        .......feef...
+        .......feef...
+        ......feeef...
+        .....fffffff..
+        ....f11ff11f..
+        ....f111111f..
+        ...f11f111f1f.
+        .fff1f111111f.
+        f11f1111f11f1f
+        f111f11f11111f
+        .f1111111111f.
+        ..f111f1111f..
+        ...f1111fff...
+        ....f11feef...
+        .....ff.eef...
+        .......feef...
+        ......feef....
+        .......feef...
+        .......feef...
+        .......fef....
+        ........f.....
+        `,img`
+        ....4..54.4..5
+        ....5.....5...
+        ......5....4..
+        ....4.55.54...
+        ......45554.5.
+        ......455554..
+        ......2455442.
+        ....ff244542f.
+        ...feef2222fef
+        ....feeffffeef
+        .....feeeeeef.
+        ......feeeef..
+        .......feef...
+        .......feef...
+        ......feeef...
+        .....fffffff..
+        ....f11ff11f..
+        ....f111111f..
+        ...f11f111f1f.
+        .fff1f111111f.
+        f11f1111f11f1f
+        f111f11f11111f
+        .f1111111111f.
+        ..f111f1111f..
+        ...f1111fff...
+        ....f11feef...
+        .....ff.eef...
+        .......feef...
+        ......feef....
+        .......feef...
+        .......feef...
+        .......fef....
+        ........f.....
+        `],
+    100,
+    true
+    )
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.coolDownBuy, function (sprite, otherSprite) {
     game.showLongText("Esta mejora disminuye el coolDown del disparo Quieres comprarla?", DialogLayout.Bottom)
@@ -466,23 +631,182 @@ tiles.loadMap(tiles.createMap(tilemap`level0`))
 enemySpeed = 20
 effects.starField.startScreenEffect()
 cursor = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . f f . . . . . f f f . . . . . 
-    f 1 1 f . . f f 1 1 1 f . . . . 
-    f 1 1 1 f f 1 1 f 1 1 1 f . . . 
-    f 1 1 1 1 1 f 1 1 1 1 1 f . . . 
-    . f 1 1 1 1 1 1 1 1 f 1 1 f . . 
-    . . f 1 1 1 1 1 f 1 1 f 1 f . . 
-    . . f f 1 1 f 1 1 f 1 1 1 f . . 
-    . . f 1 1 1 1 f 1 1 1 1 1 f f . 
-    . . f 1 1 1 1 1 1 1 1 1 f 1 1 f 
-    . . . f 1 1 1 1 1 1 1 1 1 1 1 f 
-    . . . . f 1 1 1 1 1 f 1 1 1 f . 
-    . . . . . f f f f f 1 1 1 f . . 
-    . . . . . . . . f 1 1 1 f . . . 
-    . . . . . . . . f 1 1 f . . . . 
-    . . . . . . . . . f f . . . . . 
+    ......45...5..
+    ..........54..
+    .......54.....
+    ........55..5.
+    .......5555...
+    .......55554..
+    ......2455442.
+    ....ff244542f.
+    ...feef2222fef
+    ....feeffffeef
+    .....feeeeeef.
+    ......feeeef..
+    .......feef...
+    .......feef...
+    ......feeef...
+    .....f1fffff..
+    ....f111f11f..
+    ...f1111111f..
+    ...f11f111f1f.
+    .fff1f111111f.
+    f11f1111f11f1f
+    f111f11f11111f
+    .f1111111111f.
+    ..f111f1111f..
+    ...f1111fff...
+    ....f11feef...
+    .....ff.eef...
+    .......feef...
+    ......feef....
+    .......feef...
+    .......feef...
+    .......fef....
+    ........f.....
     `, SpriteKind.Player)
+animation.runImageAnimation(
+cursor,
+[img`
+    ......45...5..
+    ..........54..
+    .......54.....
+    ........55..5.
+    .......5555...
+    .......55554..
+    ......2455442.
+    ....ff244542f.
+    ...feef2222fef
+    ....feeffffeef
+    .....feeeeeef.
+    ......feeeef..
+    .......feef...
+    .......feef...
+    ......feeef...
+    .....fffffff..
+    ....f11ff11f..
+    ....f111111f..
+    ...f11f111f1f.
+    .fff1f111111f.
+    f11f1111f11f1f
+    f111f11f11111f
+    .f1111111111f.
+    ..f111f1111f..
+    ...f1111fff...
+    ....f11feef...
+    .....ff.eef...
+    .......feef...
+    ......feef....
+    .......feef...
+    .......feef...
+    .......fef....
+    ........f.....
+    `,img`
+    .........4.5..
+    .....5...5.4..
+    .....4......5.
+    .........5..4.
+    ......45.54...
+    ......45554...
+    ......245542..
+    ....ff244542f.
+    ...feef2222fef
+    ....feeffffeef
+    .....feeeeeef.
+    ......feeeef..
+    .......feef...
+    .......feef...
+    ......feeef...
+    .....fffffff..
+    ....f11ff11f..
+    ....f111111f..
+    ...f11f111f1f.
+    .fff1f111111f.
+    f11f1111f11f1f
+    f111f11f11111f
+    .f1111111111f.
+    ..f111f1111f..
+    ...f1111fff...
+    ....f11feef...
+    .....ff.eef...
+    .......feef...
+    ......feef....
+    .......feef...
+    .......feef...
+    .......fef....
+    ........f.....
+    `,img`
+    .....4....4...
+    .....5......5.
+    .......54...4.
+    .....4..55....
+    .....5.55542..
+    ......255442..
+    .......2542...
+    ....ff.2552.f.
+    ...feef.22.fef
+    ....feeffffeef
+    .....feeeeeef.
+    ......feeeef..
+    .......feef...
+    .......feef...
+    ......feeef...
+    .....fffffff..
+    ....f11ff11f..
+    ....f111111f..
+    ...f11f111f1f.
+    .fff1f111111f.
+    f11f1111f11f1f
+    f111f11f11111f
+    .f1111111111f.
+    ..f111f1111f..
+    ...f1111fff...
+    ....f11feef...
+    .....ff.eef...
+    .......feef...
+    ......feef....
+    .......feef...
+    .......feef...
+    .......fef....
+    ........f.....
+    `,img`
+    ....4..54.4..5
+    ....5.....5...
+    ......5....4..
+    ....4.55.54...
+    ......45554.5.
+    ......455554..
+    ......2455442.
+    ....ff244542f.
+    ...feef2222fef
+    ....feeffffeef
+    .....feeeeeef.
+    ......feeeef..
+    .......feef...
+    .......feef...
+    ......feeef...
+    .....fffffff..
+    ....f11ff11f..
+    ....f111111f..
+    ...f11f111f1f.
+    .fff1f111111f.
+    f11f1111f11f1f
+    f111f11f11111f
+    .f1111111111f.
+    ..f111f1111f..
+    ...f1111fff...
+    ....f11feef...
+    .....ff.eef...
+    .......feef...
+    ......feef....
+    .......feef...
+    .......feef...
+    .......fef....
+    ........f.....
+    `],
+100,
+true
+)
 cursor.setFlag(SpriteFlag.GhostThroughWalls, true)
 cursor.setFlag(SpriteFlag.StayInScreen, true)
 cursor.z = 10000
@@ -511,73 +835,141 @@ game.onUpdateInterval(1000, function () {
         animation.runImageAnimation(
         newEnemy2,
         [img`
-            . . . . b b b b . . . . . . . . 
-            . . . b 3 3 3 3 b b b b . . . . 
-            . . b b 3 3 3 3 3 1 1 b b c c . 
-            . . b 1 1 3 3 3 3 3 1 1 3 b c c 
-            . . b 1 1 3 3 3 3 3 3 3 3 3 b c 
-            . . c 3 3 3 3 3 b c c c c b b f 
-            . c 3 3 3 3 b b d d d c c c b f 
-            c b 3 3 b b d d d d d d b c b f 
-            c 3 3 c b d d d d d d c d b c . 
-            f 3 c c c d d c d d d c d d c . 
-            f b c c c d d d c d d d d d f . 
-            f b c c c f f b d d b b b d f . 
-            f f b b f b d d b d d d d c . . 
-            . f f f f d d b b d d d c . . . 
-            . . . . b b b b f b b f f . . . 
-            . . . . . . . f f b b b f . . . 
+            f f f . . . . . . . . f f f . . 
+            c b b c f . . . . . . c c f f . 
+            . c b b c f . . . . . . c c f f 
+            . c c c b f . . . . . . c f c f 
+            . c c b b c f . c c . c c f f f 
+            . c b b c b f c c 3 c c 3 c f f 
+            . c b c c b f c b 3 c b 3 b f f 
+            . . c c c b b c b b b b b b c . 
+            . . . c c c c b b 1 b b b 1 c . 
+            . . . . c c b b b b b b b b b c 
+            . . . . f b b b b c b b b c b c 
+            . . . c f b b b b 1 f f f 1 b f 
+            . . c c f b b b b b b b b b b f 
+            . . . . f c b b b b b b b b f . 
+            . . . . . f c b b b b b b f . . 
+            . . . . . . f f f f f f f . . . 
+            `,img`
+            . . . . . . . . . . . f f f . . 
+            f f f . . . . . . . . c c f f f 
+            c b b c f . . . c c . . c c f f 
+            . c b b b f f c c 3 c c 3 c f f 
+            . c c c b b f c b 3 c b 3 b f f 
+            . c c b c b f c b b b b b b c . 
+            . c b b c b b c b b b b b b c . 
+            . c b c c c b b b 1 b b b 1 b c 
+            . . c c c c c b b b b b b b b c 
+            . . . c f b b b b c b b b c b f 
+            . . c c f b b b b 1 f f f 1 b f 
+            . . . . f c b b b b b b b b f . 
+            . . . . . f c b b b b b b f . . 
+            . . . . . . f f f f f f f . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
             `,img`
             . . . . . . . . . . . . . . . . 
-            . . . . b b b b . . . . . . . . 
-            . . . b 3 3 3 3 b b b b . . . . 
-            . . b b 3 3 3 3 3 1 1 b b c c . 
-            . . b 1 1 3 3 3 3 1 1 1 3 c c c 
-            . . b 1 1 3 3 3 3 3 3 3 3 3 b c 
-            . . c 1 1 3 3 b b c c c c b b f 
-            . c c 3 3 b b d d d d b c c b f 
-            c b 3 3 b b d d d d d d d c b f 
-            c 3 3 b b d d d d d d c d d c . 
-            f 3 3 c b d d c d d d c d d c . 
-            f b c c c d d d c d d d d d f . 
-            f b c c c d d f f b b b b d f . 
-            f f b b c c f b d d b d d c . . 
-            . f f f c c f d d b b d c . . . 
-            . . . . . . b b b b f c . . . . 
+            . . . . . . . . c c . . c c . . 
+            . . . . . . c c c 3 c c 3 c . . 
+            . . . . . c c c b 3 c b 3 b c . 
+            . . . . f f b b b b b b b b c . 
+            . . . . f f b b b b b b b b c c 
+            . . . f f f c b b 1 b b b 1 b c 
+            . . . f f f f b b b b b b b b c 
+            . . . b b b c c b c b b b c b f 
+            . . . c c c c f b 1 f f f 1 b f 
+            . . . c c b b f b b b b b b f . 
+            . . . c b b c c b b b b b f c c 
+            . . c b b c c f f f f f f c c c 
+            . c c c c c . . . . . . c c c . 
+            c c c c . . . . . . . c c c . . 
+            . . . . . . . . . . . . . . . . 
+            `,img`
+            . f f f . . . . . . . . f f f . 
+            . c b b c f . . . . . . . c f f 
+            . . c b b c f . . . . . . c c f 
+            . . c c c b f . . . . . . . f c 
+            . . c c b b f f . . . . . f f c 
+            . . c b b c b f c c . c c f f f 
+            . . c b c c b f c c c c c f f f 
+            . . . c c c b c b 3 c c 3 c f . 
+            . . . c c c c b b 3 c b 3 b c . 
+            . . . . c c b b b b b b b b c c 
+            . . . c f b b b b 1 b b b 1 b c 
+            . . c c f b b b b b b b b b b f 
+            . . . . f b b b b c b b b c b f 
+            . . . . f c b b b 1 f f f 1 f . 
+            . . . . . f c b b b b b b f . . 
+            . . . . . . f f f f f f f . . . 
+            `,img`
+            f f f . . . . . . . . f f f . . 
+            c b b c f . . . . . . c c f f . 
+            . c b b c f . . . . . . c c f f 
+            . c c c b f . . . . . . c f c f 
+            . c c b b c f . c c . c c f f f 
+            . c b b c b f c c 3 c c 3 c f f 
+            . c b c c b f c b 3 c b 3 b f f 
+            . . c c c b b c b 1 b b b 1 c . 
+            . . . c c c c b b 1 b b b 1 c . 
+            . . . . c c b b b b b b b b b c 
+            . . . . f b b b b c 1 f f 1 b c 
+            . . . c f b b b b f 1 f f 1 f f 
+            . . c c f b b b b f 2 2 2 2 f f 
+            . . . . f c b b b b 2 2 2 2 f . 
+            . . . . . f c b b b b b b f . . 
+            . . . . . . f f f f f f f . . . 
+            `,img`
+            . . . . . . . . . . . f f f . . 
+            f f f . . . . . . . . c c f f f 
+            c b b c f . . . c c . c c c f f 
+            . c b b b f f c c 3 c c 3 c f f 
+            . c c c b b f c b 3 c b 3 c f f 
+            . c c b c b f c b b b b b b c f 
+            . c b b c b b c b 1 b b b 1 c c 
+            . c b c c c b b b b b b b b b c 
+            . . c c c c c b b c 1 f f 1 b c 
+            . . . c f b b b b f 1 f f 1 f c 
+            . . . c f b b b b f f f f f f f 
+            . . c c f b b b b f 2 2 2 2 f f 
+            . . . . f c b b b 2 2 2 2 2 f . 
+            . . . . . f c b b b 2 2 2 f . . 
+            . . . . . . f f f f f f f . . . 
+            . . . . . . . . . . . . . . . . 
             `,img`
             . . . . . . . . . . . . . . . . 
-            . . . . b b b b . . . . . . . . 
-            . . . b 3 3 3 3 b b b b . . . . 
-            . . b b 3 3 3 3 3 3 1 1 b c c . 
-            . . b 3 3 3 3 3 3 1 1 1 3 c c c 
-            . . b 1 1 3 3 3 3 3 3 3 3 3 b c 
-            . . c 1 1 3 3 3 b c c c c b b f 
-            . c c 3 3 3 b b d d d c c c b f 
-            c b 3 3 b b d d d d d d b c b f 
-            c 3 3 c b d d d d d d d d b c . 
-            f 3 c c c d d d d d d c c d c . 
-            f b c c c d d c c d d d d d f . 
-            f b c c c d d d d d b b b d f . 
-            f f b b c f f b d d d d d c . . 
-            . f f f f d d b b d d d b f . . 
-            . . . . f d d d b c c f f f . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . c c . c c . . . 
+            . . . . . . c c c 3 c c 3 f . . 
+            . . . . . c c c b 3 c b 3 c f . 
+            . . . . f f b b b b b b b b c f 
+            . . . . f f b b b 1 b b b 1 c c 
+            . . . f f f c b b b b b b b b c 
+            . . . f f f f b b c 1 f f 1 b c 
+            . . . b b b c c b f 1 f f 1 f f 
+            . . . c c c c f b f f f f f f f 
+            . . c c c b b f b f 2 2 2 2 f f 
+            . . . c b b c c b 2 2 2 2 2 f . 
+            . . c b b c c f f b 2 2 2 f . . 
+            . c c c c c f f f f f f f . . . 
+            c c c c . . . . . . . . . . . . 
             `,img`
-            . . . . b b b b . . . . . . . . 
-            . . . b 3 3 3 3 b b b b . . . . 
-            . . b b 3 3 3 3 3 1 1 b b c c . 
-            . . b 1 1 3 3 3 3 3 1 1 3 3 c c 
-            . . b 1 1 3 3 3 3 3 3 3 3 3 b c 
-            . . c 3 3 3 3 3 3 3 c c c b b f 
-            . c 3 3 3 3 3 b b b b c c c b f 
-            c 3 3 3 3 b b d d d d d c c b f 
-            c 3 3 c b d d d d d d c d c c . 
-            f 3 c c c d d c d d d c d b c . 
-            f b c c c d d d c d d d d d f . 
-            f b c c c d d d d d b b b d f . 
-            f f b b c b d d d d d d d c . . 
-            . f f f f b c c d d d d f f . . 
-            . . f b d d b c c f f b b f f . 
-            . . f d d d b . . f f b b b f . 
+            . f f f . . . . . . . . f f f . 
+            . c b b c f . . . . . . . c f f 
+            . . c b b c f . . . . . . c c f 
+            . . c c c b f . . . . . . . f c 
+            . . c c b b f f . . . . . f f c 
+            . . c b b c b f c c . c c f f f 
+            . . c b c c b f c c c c c f f f 
+            . . . c c c b c b 3 c c 3 c f . 
+            . . . c c c c b b 3 c b 3 b c . 
+            . . . . c c b b b b b b b b c c 
+            . . . c f b b b 1 1 b b b 1 1 c 
+            . . c c f b b b b b b b b b b f 
+            . . . . f b b b b c b b b c b f 
+            . . . . f c b b b 1 f f f 1 f . 
+            . . . . . f c b b b b b b f . . 
+            . . . . . . f f f f f f f . . . 
             `],
         100,
         true
