@@ -186,6 +186,80 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
             . . . 2 . . . . 
             . . . . . . . . 
             `, cursor, 0, projectile_speed)
+        animation.runImageAnimation(
+        projectile,
+        [img`
+            . . 2 2 2 2 . . 
+            . 4 4 5 5 4 4 . 
+            . 4 5 1 1 5 4 . 
+            2 4 5 1 1 1 4 2 
+            2 4 4 5 5 5 4 2 
+            . 2 5 1 5 4 2 2 
+            . 2 4 5 4 2 2 . 
+            . 2 2 2 2 . 2 . 
+            . 2 . 2 . . 2 . 
+            . 2 . . . . 2 . 
+            . . . . 5 . 2 . 
+            . . 5 . 2 . . . 
+            . 2 . . . . . . 
+            . . . 2 . . . . 
+            . . . 2 . . . . 
+            . . . . . . . . 
+            `,img`
+            . . 2 2 2 2 . . 
+            . 4 4 4 4 4 4 . 
+            . 4 5 1 1 4 4 . 
+            2 4 5 1 5 4 4 2 
+            2 4 4 5 5 5 4 2 
+            . 2 5 5 5 5 2 2 
+            . 2 4 5 4 2 2 . 
+            5 . 2 2 2 . . . 
+            2 . . 2 . . . . 
+            2 . . . . . 2 . 
+            . . . 2 . 2 5 . 
+            . . . 2 . . . . 
+            . 2 . . . . 5 . 
+            . 5 . . . . 2 . 
+            . 2 . . . . 2 . 
+            . . . . . . . . 
+            `,img`
+            . . 2 2 2 2 . . 
+            . 4 4 5 5 4 4 . 
+            . 4 5 1 5 5 4 . 
+            2 4 5 1 1 5 4 2 
+            2 4 5 1 5 5 4 2 
+            . 2 5 5 4 4 2 . 
+            . 2 4 4 4 2 . . 
+            . 2 2 2 2 . . 2 
+            . 2 . 2 . . . 2 
+            . . . . . 2 . 2 
+            5 . . . . 2 . . 
+            2 . . . . 2 . . 
+            . . . . . . . . 
+            . . 5 . . . . . 
+            . . 2 . . . . . 
+            . . . . . . . . 
+            `,img`
+            . . 2 2 2 2 . . 
+            . 4 4 5 4 5 4 . 
+            . 4 5 1 1 5 4 . 
+            2 4 5 1 5 5 4 2 
+            2 4 4 5 5 4 4 2 
+            . 2 4 5 4 4 2 2 
+            . 2 5 4 4 2 2 . 
+            . 2 2 2 2 . 2 . 
+            . 2 . 2 . . . . 
+            . 5 . . . 5 . . 
+            . . . . . 2 . 2 
+            2 . . . . . 2 5 
+            5 . . . . . . . 
+            . . . 2 . . 5 . 
+            . . . 2 . . 2 . 
+            . . . . . . 2 . 
+            `],
+        100,
+        true
+        )
         projectile.setFlag(SpriteFlag.GhostThroughWalls, true)
         music.play(music.melodyPlayable(music.pewPew), music.PlaybackMode.UntilDone)
         timer.after(shootCooldown, function () {
@@ -497,7 +571,7 @@ game.onUpdateInterval(1000, function () {
             . . f b d d b c c f f b b f f . 
             . . f d d d b . . f f b b b f . 
             `],
-        500,
+        100,
         true
         )
         tiles.placeOnRandomTile(newEnemy2, assets.tile`myTile0`)
