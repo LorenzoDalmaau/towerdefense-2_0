@@ -201,62 +201,63 @@ function goShop () {
     game.splash("Selecciona una ventaja para comprar")
     pause(1000)
     proyectileSpeedBuy = sprites.create(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . 5 5 5 5 5 5 . . . . 
-        . . . . . 5 . . . . 5 5 5 . . . 
-        . . . . 5 . . . . . . . 5 5 . . 
-        . . 5 5 5 5 5 5 5 5 5 5 5 5 . . 
-        . 5 . 5 5 5 5 5 5 5 5 5 . 5 . . 
-        5 . 5 5 5 5 5 . . 5 5 5 5 5 . . 
-        5 5 . . 5 5 5 5 5 5 5 . . . 5 5 
-        5 5 5 5 5 5 5 5 . . . . . . . 5 
-        . 5 5 5 5 5 . . . . . . . . . 5 
-        . . . . . . . . . . . . . . . 5 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
+        ........................7..
+        ........................7..
+        ......................77777
+        .fffff...fffff...fffff..7..
+        f17777f.f17777f.f17777f.7..
+        .f17777f.f17777f.f17777f...
+        ..f17777f.f17777f.f17777f..
+        ...f17777f.f17777f.f17777f.
+        ....f17777f.f17777f.f17777f
+        ...f17777f.f17777f.f17777f.
+        ..f17777f.f17777f.f17777f..
+        .f17777f.f17777f.f17777f...
+        f17777f.f17777f.f17777f....
+        .fffff...fffff...fffff.....
         `, SpriteKind.proyectileSpeedBuy)
-    tiles.placeOnTile(proyectileSpeedBuy, tiles.getTileLocation(5, 9))
+    tiles.placeOnTile(proyectileSpeedBuy, tiles.getTileLocation(6, 9))
     playerSpeedBuy = sprites.create(img`
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        .............................
+        .fff....................7fff.
+        .f99ff.................f799f.
+        .f9999ff.............f77777f.
+        .f999999ff.........ff999799f.
+        .ff9999999f.......f9999979ff.
+        ff9fff99999f.....f99999fff9ff
+        f99999999999f...f99999999999f
+        f99999999999f...f99999999999f
+        .f99999fff999f.f999fff99999f.
+        ..ff99f999f99f.f99f999f99ff..
+        .f999f9999f99f.f99f9999f999f.
+        ..f99f999f999f.f999f999f99f..
+        ...fff999999f...f999999fff...
+        ......f9999f.....f9999f......
+        .......ffff.......ffff.......
         `, SpriteKind.playerSpeedBuy)
-    tiles.placeOnTile(playerSpeedBuy, tiles.getTileLocation(7, 9))
+    tiles.placeOnTile(playerSpeedBuy, tiles.getTileLocation(8, 9))
     coolDownBuy = sprites.create(img`
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
-        a a a a a a a a a a a a a a a a 
+        .......fff.......
+        ......fcccf.7....
+        ......ffcff.7....
+        ....ffcccc77777..
+        ...fcccccccc7f...
+        ..fccc11f11c7cf..
+        .fccc1112111cccf.
+        .fcc111121111ccf.
+        fccc111121111cccf
+        fcc11111211111ccf
+        fccf111122211fccf
+        fcc11111111111ccf
+        fccc111111111cccf
+        .fcc111111111ccf.
+        .fccc1111111cccf.
+        ..fcccc1f1ccccf..
+        ...fcccccccccf...
+        ....ffcccccff....
+        ......fffff......
         `, SpriteKind.coolDownBuy)
-    tiles.placeOnTile(coolDownBuy, tiles.getTileLocation(9, 9))
+    tiles.placeOnTile(coolDownBuy, tiles.getTileLocation(10, 9))
 }
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite22, otherSprite2) {
     sprites.destroy(projectile, effects.fire, 500)
