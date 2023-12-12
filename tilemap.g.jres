@@ -39,6 +39,12 @@
         "tilemapTile": true,
         "displayName": "myTile5"
     },
+    "tile4": {
+        "data": "hwQQABAAAAC8vbu7u7vby7u9u7u7u9vL3bu7u7u728u7u7u7u7vby7u7u9u7u9vLu7u70b2728u7uxsRu7vby7u73bG7u9vLu7vbu7u728u7u7u7u7vby7u7u7u7u9vLu7u7u7u728u7u7u7u7u9y93d3d3d3bsMu7u7u7u7ywDMzMzMzMwMAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "myTile2"
+    },
     "level2": {
         "id": "level2",
         "mimeType": "application/mkcd-tilemap",
@@ -280,7 +286,7 @@
     "level6": {
         "id": "level6",
         "mimeType": "application/mkcd-tilemap",
-        "data": "MTAxMDAwMTAwMDEyMTUyMjIyMDEwODE4MTkxOTE5MWMxZDFkMjExZDIxMDIwMTBkMGUxNjBhMTEwYzBjMGMwYzExMDUxZDIxMWQwMjAxMGQwZTAxMDEwMTAxMTUxNjAxMTYwYjIxMWQyMTAyMDEwZDBlMTAxMDEwMTAxMDEwMjUwMTBiMWQxZDFkMDIwMTI0MGYwZjBmMGYwZjBmMGQwZTAxMGIyMTFmMWUxMjAxMDEwMTE2MDEwMTAxMDEwZDBlMDEwYjFmMjAyMDAzMDYxNzI3MTAxMDEwMTAxMDEwMGUwMTBiMTgxOTE5MWExMjAxMGQwZjBmMGYwZjBmMGYyNjE2MGExMTA5MDUxYjAyMDEwZDBlMDEwMTAxMDEwMTE3MDEwMTAxMTUxNDFiMDIwMTBkMGUwMTE2MTYwMTAxMDEwMTAxMDEwMTA4MWIwMjAxMGQwZTAxMDEyNzEwMTAxMDEwMTAyNTE2MDgxYjAyMDEwZDBlMTUwMTBkMGYwZjBmMGYwZjBlMTYxNDFjMDIwMTBkMGUxMDEwMGQwZTAxMDEwMTBkMGUwMTA4MjEwMjAxMjQwZjBmMGYwZjI2MDExNDE2MGQwZTE3MDgxZDEyMDEwMTAxMDExNjE2MTYxNzA4MTYwZDBlMDEwODFkMDMxMzA0MDQxMzA0MDQwNDEzMDcwMTIzMjMwMTE0MjIwMDIyMjIyMjIyMjIyMjIyMDAyMjIyMjIyMjIyMjIyMjAwMjIyMjIyMjIyMjIyMjIwMDAwMDAwMDIwMjIyMjIyMDAwMDAwMDAyMDIyMjIyMjIyMjIyMjAyMjAyMjIyMjIwMjAwMDAwMDIwMjIyMjIyMDIwMDAwMDAyMDIyMjIyMjAyMjAyMjIyMjIyMjIyMjIwMjIwMjIyMjIyMjIyMjIyMDIyMDAyMDAwMDAwMjIyMjAyMjAwMjAwMDAwMDIyMjIwMjAwMDAyMDIyMDAyMjIyMDIwMDAwMjAyMjAwMjIyMjIyMjIyMjIyMjIwMDIyMjIyMjIyMjIyMjIyMDAyMg==",
+        "data": "MTAxMDAwMTAwMDEyMTUyMjIyMDEwODE4MTkxOTE5MWMxZDFkMjExZDIxMDIwMTBkMGUxNjBhMTEwYzBjMGMwYzExMDUxZDIxMWQwMjAxMGQwZTAxMDEwMTAxMTUxNjAxMTYwYjIxMWQyMTAyMDEwZDBlMTAxMDEwMTAxMDEwMjUwMTBiMWQxZDFkMDIwMTI0MGYwZjBmMGYwZjBmMGQwZTAxMGIyMTFmMWUxMjAxMDEwMTE2MDEwMTAxMDEwZDBlMDEwYjFmMjAyMDAzMDYxNzI3MTAxMDEwMTAxMDEwMGUwMTBiMTgxOTE5MWExMjAxMGQwZjBmMGYwZjBmMGYyNjE2MGExMTA5MDUxYjAyMDEwZDBlMDEwMTAxMDEwMTE3MDEwMTAxMTUxNDFiMDIwMTBkMGUwMTE2MTYwMTAxMDEwMTAxMDEwMTA4MWIwMjAxMGQwZTAxMDEyNzEwMTAxMDEwMTAyNTE2MDgxYjAyMDEwZDBlMTUwMTBkMGYwZjBmMGYwZjBlMTYxNDFjMDIwMTBkMGUxMDEwMGQwZTAxMDEwMTBkMGUwMTA4MjEwMjAxMjQwZjBmMGYwZjI4MDExNDE2MGQwZTE3MDgxZDEyMDEwMTAxMDExNjE2MTYxNzA4MTYwZDBlMDEwODFkMDMxMzA0MDQxMzA0MDQwNDEzMDcwMTIzMjMwMTE0MjIwMDIyMjIyMjIyMjIyMjIyMDAyMjIyMjIyMjIyMjIyMjAwMjIyMjIyMjIyMjIyMjIwMDAwMDAwMDIwMjIyMjIyMDAwMDAwMDAyMDIyMjIyMjIyMjIyMjAyMjAyMjIyMjIwMjAwMDAwMDIwMjIyMjIyMDIwMDAwMDAyMDIyMjIyMjAyMjAyMjIyMjIyMjIyMjIwMjIwMjIyMjIyMjIyMjIyMDIyMDAyMDAwMDAwMjIyMjAyMjAwMjAwMDAwMDIyMjIwMjAwMDAyMDIyMDAyMjIyMDIwMDAwMjAyMjAwMjIyMjIyMjIyMjIyMjIwMDIyMjIyMjIyMjIyMjIyMDAyMg==",
         "tileset": [
             "myTiles.transparency16",
             "sprites.dungeon.floorDark0",
@@ -321,7 +327,8 @@
             "sprites.vehicle.roadTurn3",
             "sprites.vehicle.roadTurn2",
             "sprites.vehicle.roadTurn4",
-            "sprites.vehicle.roadTurn1"
+            "sprites.vehicle.roadTurn1",
+            "myTiles.tile4"
         ],
         "displayName": "level0"
     },

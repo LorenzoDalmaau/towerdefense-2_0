@@ -84,6 +84,7 @@ function checkLevelCompleted () {
                 ..................................................................
                 `)
             game.showLongText("LEVEL COMPLETED!!", DialogLayout.Full)
+            music.play(music.melodyPlayable(music.magicWand), music.PlaybackMode.UntilDone)
             game.showLongText("Next leve: " + ("" + level), DialogLayout.Full)
             goShop()
         }
@@ -93,6 +94,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.proyectileSpeedBuy, function (sp
     game.showLongText("Esta mejora aumenta la velocidad del proyectil. Quieres comprarla?", DialogLayout.Bottom)
     story.showPlayerChoices("Si", "No")
     if (story.checkLastAnswer("Si")) {
+        music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
         tiles.loadMap(tiles.createMap(tilemap`level0`))
         playerInShop = false
         canShoot = true
@@ -110,6 +112,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.coolDownBuy, function (sprite, o
     game.showLongText("Esta mejora disminuye el coolDown del disparo Quieres comprarla?", DialogLayout.Bottom)
     story.showPlayerChoices("Si", "No")
     if (story.checkLastAnswer("Si")) {
+        music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
         tiles.loadMap(tiles.createMap(tilemap`level0`))
         playerInShop = false
         canShoot = true
@@ -125,6 +128,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.playerSpeedBuy, function (sprite
     game.showLongText("Esta mejora aumenta la velocidad del jugador. Quieres comprarla?", DialogLayout.Bottom)
     story.showPlayerChoices("Si", "No")
     if (story.checkLastAnswer("Si")) {
+        music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
         tiles.loadMap(tiles.createMap(tilemap`level0`))
         playerInShop = false
         canShoot = true
@@ -162,6 +166,7 @@ scene.onHitWall(SpriteKind.Enemy, function (sprite2, location) {
         sprites.destroy(sprite2, effects.blizzard, 500)
         completed_enemies += 1
         info.changeLifeBy(-1)
+        music.play(music.melodyPlayable(music.smallCrash), music.PlaybackMode.UntilDone)
         checkLevelCompleted()
     }
 })
@@ -344,7 +349,7 @@ function buy_player_upgrade () {
     controller.moveSprite(cursor, playerSpeed, playerSpeed)
 }
 function buy_coolDown_upgrage () {
-    shootCooldown += 0 - 250
+    shootCooldown += 0 - 260
 }
 function initialMenu () {
     tiles.loadMap(tiles.createMap(tilemap`level12`))
@@ -443,6 +448,9 @@ let enemy_count = 0
 let level = 0
 let playerInShop = false
 let projectile_speed = 0
+music.setVolume(20)
+music.play(music.createSong(assets.song`DISCOTEKA`), music.PlaybackMode.LoopingInBackground)
+music.setVolume(100)
 initialMenu()
 let newEnemy = null
 projectile_speed = -20
